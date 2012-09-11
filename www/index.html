@@ -1,22 +1,4 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -25,18 +7,148 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <title>Hello World</title>
     </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready">
-                <p class="status pending blink">Connecting to Device</p>
-                <p class="status complete blink hide">Device is Ready!!!!</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova-2.0.0.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+    <body style="overflow-y: scroll;">
+    	<script type="text/javascript" src="cordova-2.0.0.js"></script>
+    	<script src="/js/mainprogram.js"></script>
+			<script src="/js/forwardlinear.js"></script>
+			<script src="/js/forwardsteps.js"></script>
+			<script src="/js/turngyro.js"></script>
+			<script src="/js/turncompass.js"></script>
+			<div class="Content">
+				<h1>Pedestrian Naviagation Sensor Fusion App</h1>
+				<p>
+					Notes: Place on solid level surface, aligned to the path. Turn on all sensors, wait til values stabilize, and then press Reset.  World box shows motion since last accurate gps fix.  Calculated gps box shows fusing of both.  Press 'use gps' to capture and use current inaccurate gps, and compass values.
+					Adjust stride for step size.  Hold tablet like a lunch tray, Start walking.  You may need to pause after turning. Forward, Right, Left and U-turns only. Disable Debug messages for performance.
+				</p>
+			</div>
+			<div id="DebugMessages">
+				<table id="debugTable">
+					<tr>
+		                <th>STEPS AND TURNS</th>
+					</tr>
+				</table>
+			</div>
+			<div id="MotionLog">
+				<table id="motionlogTable">
+					<tr>
+		                <th>STEPS AND TURNS</th>
+					</tr>
+				</table>
+			</div>
+			<div id="Controls">
+				<div class="toggle">
+					<button id="ButtonMode">Mode</button>
+					<span id="modeLabel">Indoor</span>
+				</div>
+				<div>
+					<button id="CalibrateButton">Calibrate</button>
+					<button id="ButtonReset" >Reset</button>
+				</div>
+				<select id="pollRateSelect" aria-labelledby="listLabel">
+					<option value="16">Poll Rate 16 msecs.</option>
+					<option value="32">Poll Rate 32 msecs.</option>
+					<option value="64">Poll Rate 64 msecs.</option>
+					<option value="128">Poll Rate 128 msecs.</option>
+					<option value="256">Poll Rate 256 msecs.</option>
+				</select>
+				<div class="toggle">
+					<button id="ButtonMotionType">Motion Type</button>
+					<span id="motionTypeLabel">Step</span>
+				</div>
+				<div>
+					Stride(m)
+					<input class="sliderStrideValue" type="range" id="StrideRange" min="0.0" max="1.0" value="0.50" step="0.01" />
+					<span id="sliderStride">0.50</span>
+				</div>
+				<div>
+					Samples between peaks
+					<input class="samplesslider1" type="range" id="samplesSlider1" min="0" max="60" value="15" />
+					<span id="sliderLabel1">15</span>
+				</div>
+				<div>
+					Minimum peak to peak distance
+					<input class="samplesslider2" type="range" id="samplesSlider2" min="0.0" max="1.0" value="0.2" step="0.01" />
+					<span id="sliderLabel2">0.2</span>
+				</div>
+				<div class="toggle">
+					<button id="ButtonTurns">Turns</button>
+					<span id="turnLabel">Snap</span>
+				</div>
+				<div>
+					Turn threshhold(deg)
+					<input class="sliderturn_thresholdValue" type="range" id="turn_thresholdslider" min="1" max="90" value="10" step="1" />
+					<span id="turn_thresholdLabel">10</span>
+				</div>
+			</div>
+			<div id="Sensors">
+				Sensors
+				<div id="Accel">
+					<div class="toggle">
+						<button id="AccelEnable" disabled>Accel</button>
+						<span id="accelStatus">off</span>
+					</div>
+					<div class="item" id="accelOutput">
+						X: <span id="accelOutputX">no data</span><br />
+						Y: <span id="accelOutputY">no data</span><br />
+						Z: <span id="accelOutputZ">no data</span>
+					</div>
+				</div>
+				<div id="Gyro">
+					<div class="toggle">
+						<button id="GyroEnable" disabled>Gyro</button>
+						<span id="gyroStatus">off</span>
+					</div>
+					<div class="item" id="gyroOutput">
+						X: <span id="gyroOutputX">no data</span><br />
+						Y: <span id="gyroOutputY">no data</span><br />
+						Z: <span id="gyroOutputZ">no data</span>
+					</div>
+				</div>
+				<div id="Compass">
+					<div class="toggle">
+						<button id="CompassEnable" disabled>Compass</button>
+						<span id="compassStatus">off</span>
+					</div>
+					<div class="item" id="compassOutput">
+						Magnetic North: <span id="magneticNorth">no data</span><br />
+						TrueNorth: <span id="trueNorth">no data</span>
+					</div>
+				</div>
+				<div id="GPS">
+					<div class="toggle">
+						<button id="GPSEnable" disabled>GPS</button>
+						<span id="gpsStatus">off</span>
+					</div>
+					<div class="item" id="locationOutput">
+						GPS Status: <span id="gps_status"></span><br />
+						Position Status: <span id="position_status"></span><br />
+						Latitude: <span id="latitude">waiting ...</span><br />
+						Longitude: <span id="longitude">waiting ...</span><br />
+						Accuracy: <span id="accuracy">waiting ...</span><br />
+						bearing: <span id="bearing">0</span>
+					</div>
+				</div>
+			</div>
+			<div id="WorldXYOrient">
+				World x, y orientation
+			  <div class="item">
+					X: <span id="worldx">waiting ...</span><br />
+			    Y: <span id="worldy">waiting ...</span><br />
+			    Z: <span id="worldz">waiting ...</span><br />
+			    Orientation: <span id="worldo">waiting ...</span>
+			  </div>
+		  </div>
+			<div id="CalcGPS">
+				Calulated GPS
+				<div class="toggle">
+					<button id="ForceGPScoorduse" disabled>USE GPS</button>
+					<span id="forcegpsvalue"></span>
+				</div>
+				<div class="item" id="calculatedOutput">
+					Latitdude: <span id="calclatitude">waiting ...</span><br />
+				  Longitude: <span id="calclongitude">waiting ...</span>
+		    </div>
+			</div>
+		</body>
+
 </html>
