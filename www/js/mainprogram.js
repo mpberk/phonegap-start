@@ -1,82 +1,77 @@
-       var SensorStateClass = {
-        accel: {
-            Available: false,
-            Enabled: false,
-            intervalId: 0,
-            getReadingInterval: 0,
-            accelerometer: null,
-            x: 0,
-            y: 0,
-            z: 0,
-        },
-        gyro: {
-            Available: false,
-            Enabled: false,
-            intervalId: 0,
-            getReadingInterval: 0,
-            gyrometer: null,
-            x: 0,
-            y: 0,
-            z: 0,
-        },
-        compass: {
-            Available: false,
-            cEnabled: false,
-            intervalId: 0,
-            getReadingInterval: 0,
-            compassdevice: null,
-            magNorth: 0,
-            trueNorth: 0,
-        },
-        gps: {
-            Available: false,
-            Enabled: false,
-            intervalId: 0,
-            getReadingInterval: 0,
-            gpsdevice: null,
-            longitude: 0.0,
-            latitude: 0.0,
-            accuracy: 0.0,
-        }
+var SensorState = {
+	accel: {
+		Available: false,
+		Enabled: false,
+		intervalId: 0,
+		getReadingInterval: 0,
+		accelerometer: null,
+		x: 0,
+		y: 0,
+		z: 0,
+	},
+	gyro: {
+		Available: false,
+		Enabled: false,
+		intervalId: 0,
+		getReadingInterval: 0,
+		gyrometer: null,
+		x: 0,
+		y: 0,
+		z: 0,
+	},
+	compass: {
+		Available: false,
+		cEnabled: false,
+		intervalId: 0,
+		getReadingInterval: 0,
+		compassdevice: null,
+		magNorth: 0,
+		trueNorth: 0,
+	},
+	gps: {
+		Available: false,
+		Enabled: false,
+		intervalId: 0,
+		getReadingInterval: 0,
+		gpsdevice: null,
+		longitude: 0.0,
+		latitude: 0.0,
+		accuracy: 0.0,
+	}
+};
 
-    };
+var CalculatedState = {
+	longitude: 0.0,
+	latitude: 0.0,
+	accuracy: 0.0,
+	x: 0.0,
+	y: 0.0,
+	z: 0.0,
+	orientation: 0,      //0 is in  initial y direction
+	calibratedorient: 0,  //compass angle at calibration
+	fwdmotion: {
+		Available: false,
+		Enabled: false,
+		distancesinceturn: 0.0,
+		x: 0,
+		y: 0,
+		z: 0,
+	},
+	turndetect: {
+		Available: false,
+		Enabled: false,
+		turnsincemotion: 0.0,
+		x: 0,
+		y: 0,
+		z: 0,
+	},
+	goodgps: {
 
-var CalculatedStateClass = {
-        longitude: 0.0,
-        latitude: 0.0,
-        accuracy: 0.0,
-        x: 0.0,
-        y: 0.0,
-        z: 0.0,
-        orientation: 0,      //0 is in  initial y direction
-        calibratedorient: 0,  //compass angle at calibration
-        fwdmotion: {
-            Available: false,
-            Enabled: false,
-            distancesinceturn: 0.0,
-            x: 0,
-            y: 0,
-            z: 0,
-        },
-        turndetect: {
-            Available: false,
-            Enabled: false,
-            turnsincemotion: 0.0,
-            x: 0,
-            y: 0,
-            z: 0,
-        },
-        goodgps: {
-
-            longitude: 0.0,
-            latitude: 0.0,
-            accuracy: 0.0,
-        }
-
-    };
-
-var CalculatedState = new CalculatedStateClass();
-var SensorState = new SensorStateClass();
+		longitude: 0.0,
+		latitude: 0.0,
+		accuracy: 0.0,
+	}
+};
 var getReadingInterval = 16;
 var DebugMessageRow = 0;
 var MotionLogRow = 0;
