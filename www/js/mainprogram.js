@@ -1,6 +1,4 @@
-﻿       var SensorStateClass = WinJS.Class.define(
-    null,
-    {
+       var SensorStateClass = {
         accel: {
             Available: false,
             Enabled: false,
@@ -41,11 +39,9 @@
             accuracy: 0.0,
         }
 
-    });
+    };
 
-var CalculatedStateClass = WinJS.Class.define(
-    null,
-    {
+var CalculatedStateClass = {
         longitude: 0.0,
         latitude: 0.0,
         accuracy: 0.0,
@@ -77,7 +73,7 @@ var CalculatedStateClass = WinJS.Class.define(
             accuracy: 0.0,
         }
 
-    });
+    };
 
 var CalculatedState = new CalculatedStateClass();
 var SensorState = new SensorStateClass();
@@ -209,7 +205,7 @@ function getSliderValue(sliderID) {
 */
 
 
- 
+
     function forwardmotiondetect() {
         if (MotionType == 1) linearmotiondetect();
         if (MotionType == 0) stepmotiondetect();
@@ -490,7 +486,7 @@ function getSliderValue(sliderID) {
                 enableInterval();
                 document.getElementById("accelStatus").textContent = deviceon;
                 document.getElementById("AccelEnable").style.background = 'Green';
-                
+
             }
         }
     }
@@ -537,7 +533,7 @@ function getSliderValue(sliderID) {
                 disableInterval();
                 document.getElementById("gpsStatus").textContent = deviceoff;
                 document.getElementById("GPSEnable").style.background = 'Gray';
-             
+
                 //disableGPS();
             }
             else {
@@ -696,7 +692,7 @@ function getSliderValue(sliderID) {
         // id("scenario3Open").disabled = false;
         // id("scenario3Revoke").disabled = true;
         // id("scenarios").addEventListener("change", /*@static_cast(EventListener)*/resetAll, false);
-        
+
         var accelerometer = Windows.Devices.Sensors.Accelerometer.getDefault();
         SensorState.accel.accelerometer = accelerometer;
         if (SensorState.accel.accelerometer) {
