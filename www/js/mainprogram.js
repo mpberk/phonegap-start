@@ -688,22 +688,25 @@ function getSliderValue(sliderID) {
         // id("scenario3Revoke").disabled = true;
         // id("scenarios").addEventListener("change", /*@static_cast(EventListener)*/resetAll, false);
 
-        var accelerometer = Windows.Devices.Sensors.Accelerometer.getDefault();
-        SensorState.accel.accelerometer = accelerometer;
+        // var accelerometer = Windows.Devices.Sensors.Accelerometer.getDefault();
+        // SensorState.accel.accelerometer = accelerometer;
+        SensorState.accel.accelerometer = navigator.accelerometer;
         if (SensorState.accel.accelerometer) {
             // Choose a report interval supported by the sensor
-            var minimumReportInterval = SensorState.accel.accelerometer.minimumReportInterval;
-            var reportInterval = minimumReportInterval > 16 ? minimumReportInterval : 16;
-            SensorState.accel.accelerometer.reportInterval = reportInterval;
-            SensorState.accel.getReadingInterval = reportInterval;
-            getReadingInterval = reportInterval > getReadingInterval ? reportInterval : getReadingInterval;
+            // var minimumReportInterval = SensorState.accel.accelerometer.minimumReportInterval;
+            // var reportInterval = minimumReportInterval > 16 ? minimumReportInterval : 16;
+            var minimumReportInterval = 16;
+            var reportInterval = 16;
+            //SensorState.accel.accelerometer.reportInterval = reportInterval;
+            //SensorState.accel.getReadingInterval = reportInterval;
+            //getReadingInterval = reportInterval > getReadingInterval ? reportInterval : getReadingInterval;
             SensorState.accel.Available = true;
         } else {
             SensorState.accel.Available = false;
             document.getElementById("accelStatus").textContent = notfound;
         }
 
-        var gyrometer = Windows.Devices.Sensors.Gyrometer.getDefault();
+        /* var gyrometer = Windows.Devices.Sensors.Gyrometer.getDefault();
         SensorState.gyro.gyrometer = gyrometer;
         if (SensorState.gyro.gyrometer) {
             // Choose a report interval supported by the sensor
@@ -717,7 +720,8 @@ function getSliderValue(sliderID) {
             SensorState.gyro.Available = false;
             document.getElementById("gyroStatus").textContent = notfound;
         }
-
+		*/
+        /*
         var compass = Windows.Devices.Sensors.Compass.getDefault();
         SensorState.compass.compassdevice = compass;
         if (compass) {
@@ -732,7 +736,8 @@ function getSliderValue(sliderID) {
             SensorState.compass.Available = false;
             document.getElementById("compassStatus").textContent = notfound;
         }
-
+		*/
+		/*
         var gps = new Windows.Devices.Geolocation.Geolocator();
         SensorState.gps.gpsdevice = gps;
         if (gps) {
@@ -745,6 +750,7 @@ function getSliderValue(sliderID) {
             document.getElementById("compassStatus").textContent = notfound;
         }
         Reset();
+        */
         var pollRateSelection = document.getElementById("pollRateSelect");
         pollRateSelection.addEventListener("change", function (e) {
             onSelectPollRate(pollRateSelection.value);
