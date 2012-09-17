@@ -6,14 +6,14 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <title>Hello World</title>
-        <script type="text/javascript" src="cordova-2.0.0.js"></script>
+        <script type="text/javascript" src="phonegap.js"></script>
 				<script type="text/javascript" src="/js/mainprogram.js"></script>
 				<script type="text/javascript" src="/js/forwardlinear.js"></script>
 				<script type="text/javascript" src="/js/forwardsteps.js"></script>
 				<script type="text/javascript" src="/js/turngyro.js"></script>
 				<script type="text/javascript" src="/js/turncompass.js"></script>
 				<script type="text/javascript">
-						//document.addEventListener("deviceready", loaded, false);
+						document.addEventListener("deviceready", loaded, false);
 						function loaded() {
 								document.getElementById("ForceGPScoorduse").disabled = false;
 								document.getElementById("AccelEnable").disabled = false;
@@ -163,9 +163,6 @@
         </div>
 	    </div>
     </div>
-    <script type="text/javascript">
-			loaded();
-    </script>
 </body>
 
 </html>
