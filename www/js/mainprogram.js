@@ -692,7 +692,8 @@ function getSliderValue(sliderID) {
         // SensorState.accel.accelerometer = accelerometer;
         SensorState.accel.accelerometer = navigator.accelerometer;
         if (SensorState.accel.accelerometer) {
-            // Choose a report interval supported by the sensor
+        	alert('Hit!!');
+        	// Choose a report interval supported by the sensor
             // var minimumReportInterval = SensorState.accel.accelerometer.minimumReportInterval;
             // var reportInterval = minimumReportInterval > 16 ? minimumReportInterval : 16;
             var minimumReportInterval = 16;
